@@ -1,21 +1,42 @@
 import React, { Component } from 'react';
+// import '@/main.scss';
 
 class Com extends Component {
   constructor (props) {
     super (props);
-    console.log('1',this)
+    this.state = {
+      list: []
+    }
   }
-  btnClickFn (event, id) {
-    console.log(id,this)
+
+  componentDidMount () {
+    fetch('http://www.daxunxun.com/douban').then(res => res.json()).then(data => {
+      console.log(data)
+      this.setState({
+        list: data
+      })
+    })
   }
 
   render () {
-    const _this = this
     return (
-      <div>
-        <button onClick = { function (e) {return _this.btnClickFn(e, 11)} }>按钮1</button>
-        <button onClick = { (e) => this.btnClickFn(e, 22) }>按钮2</button>
-      </div>
+      <ul className="list">
+        {
+          this.state.list.map(item => {
+            return (<li key = { item.id } style={
+              {
+                width: '100%',
+                height: '40px',
+                font:'18px/40px ""',
+                border: '1px solid #000',
+                borderRadius: '20px',
+                marginBottom: '20px',
+                textAlign: 'center'
+              }
+            }>{ item.title }</li>)
+          })
+        }
+      </ul>
     )
   }
 
